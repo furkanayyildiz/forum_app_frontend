@@ -14,26 +14,26 @@ import Filter from "./utils/Filter";
 //import dataProvider from "@refinedev/simple-rest"
 
 const App = () => {
-    return (
+  return (
+    <div>
+      <BrowserRouter>
+        <Nav />
         <div>
-            <BrowserRouter>
-             <Nav />
-                <div>
-                    <Routes>
-                    
-                        <Route path='/' element={<Login />} />
-                        <Route path='/register' element={<Register />} />
-                        <Route path='/dashboard' element={<Home />} />
-                        <Route path='/:id/replies' element={<Replies />} />
-                        <Route path='/threads' element={<Threads />} />
-                        <Route path='/search' element={<Search />} />
-                        <Route path='/card' element={<Card />} />
-                        <Route path='/filter' element={<Filter />} />
-                    </Routes>
-                </div>
-            </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Home />} />
+            <Route path="/:id/replies" element={<Replies />} />
+            <Route path="/threads" element={<Threads />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/card" element={<Card />} />
+            <Route path="/filter" element={<Filter />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
         </div>
-    );
+      </BrowserRouter>
+    </div>
+  );
 };
 
 export default App;
