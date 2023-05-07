@@ -1,91 +1,83 @@
-import React, { useEffect, useState } from "react";
-import Likes from "../utils/Likes";
-import Comments from "../utils/Comments";
+import React, { useEffect, useState } from "react"
+import { useMany } from "@refinedev/core"
+
+import Filter from "../utils/Filter"
+import Search from "../utils/Search"
+import Card from "../utils/Card"
 import { useNavigate } from "react-router-dom";
-import Nav from "./Nav";
+import { motion, AnimatePresence } from "framer-motion"
+
 
 const Home = () => {
-	const [thread, setThread] = useState("");
-	const [threadList, setThreadList] = useState([]);
-	const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState("")
+  const [activeFilter, setActiveFilter] = useState("")
+  const [posts, setPostList] = useState([]);
+  /*const posts = useMany({
+    resource: "posts",
+    ids: Array.from(Array(8).keys()).slice(1)
+  }).data?.data*/
 
-	useEffect(() => {
-		const checkUser = () => {
-			if (!localStorage.getItem("_id")) {
-				navigate("/");
-			} else {
-				fetch("http://localhost:4000/api/all/threads")
-					.then((res) => res.json())
-					.then((data) => setThreadList(data.threads))
-					.catch((err) => console.error(err));
-			}
-		};
-		checkUser();
-	}, [navigate]);
+  const navigate = useNavigate();
 
-	const createThread = () => {
-		fetch("http://localhost:4000/api/create/thread", {
-			method: "POST",
-			body: JSON.stringify({
-				thread,
-				id: localStorage.getItem("_id"),
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				alert(data.message);
-				setThreadList(data.threads);
-			})
-			.catch((err) => console.error(err));
-	};
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		createThread();
-		setThread("");
-	};
-	return (
-		<>
-			
-			<main className='home'>
-				<h2 className='homeTitle'>Create a Thread</h2>
-				<form className='homeForm' onSubmit={handleSubmit}>
-					<div className='home__container'>
-						<label htmlFor='thread'>Title / Description</label>
-						<input
-							type='text'
-							name='thread'
-							required
-							value={thread}
-							onChange={(e) => setThread(e.target.value)}
-						/>
-					</div>
-					<button className='homeBtn'>CREATE THREAD</button>
-				</form>
+  useEffect(() => {
+    // fetch data
+    const dataFetch = async () => {
+      const posts = await (
+        await fetch(
+          "https://api.fake-rest.refine.dev/posts"
+        )
+      ).json();
 
-				<div className='thread__container'>
-					{threadList.map((thread) => (
-						<div className='thread__item' key={thread.id}>
-							<p>{thread.title}</p>
-							<div className='react__container'>
-								<Likes
-									numberOfLikes={thread.likes.length}
-									threadId={thread.id}
-								/>
-								<Comments
-									numberOfComments={thread.replies.length}
-									threadId={thread.id}
-									title={thread.title}
-								/>
-							</div>
-						</div>
-					))}
-				</div>
-			</main>
-		</>
-	);
-};
+      // set state when the data received
+      setPostList(posts);
+    };
 
+    dataFetch();
+  }, [navigate	]);
+
+
+
+  const filters = ["film", "oyun", "müzik"];
+
+  return (
+    <motion.div>
+      <div className={'filters'}>
+        {filters.map((filter, index) => {
+          return (
+            <Filter
+              key={index}
+              title={filter}
+              isActive={filter === activeFilter}
+              onClick={e => {
+                const el = e.target
+                el.textContent?.toLowerCase() !== activeFilter
+                  ? setActiveFilter(filter)
+                  : setActiveFilter("")
+              }}
+            />
+          )
+        })}
+      </div>
+      <Search
+        onChange={e => {
+          setInputValue(e.target.value)
+        }}
+      />
+      <AnimatePresence>
+		<div className="w-100">
+			<div className="card-list">
+				{posts
+				?.filter(el =>
+					el.title.toLowerCase().includes(inputValue.toLowerCase())
+				)
+				.filter(e => e.status.includes(activeFilter))
+				.map((post, index) => {
+					return <Card key={index} title={post.title} status={post.status} />
+				})}
+			</div>
+		</div>
+      </AnimatePresence>
+    </motion.div> 
+  )
+}
 export default Home;
