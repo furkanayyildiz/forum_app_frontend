@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react"
-import { useMany } from "@refinedev/core"
+import React, { useEffect, useState } from "react";
+import { useMany } from "@refinedev/core";
 
-import Filter from "../utils/Filter"
-import Search from "../utils/Search"
-import Card from "../utils/Card"
+import Filter from "../utils/Filter";
+import Search from "../utils/Search";
+import Card from "../utils/Card";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion"
-
+import { motion, AnimatePresence } from "framer-motion";
 
 const Home = () => {
-  const [inputValue, setInputValue] = useState("")
-  const [activeFilter, setActiveFilter] = useState("")
+  const [inputValue, setInputValue] = useState("");
+  const [activeFilter, setActiveFilter] = useState("");
   const [posts, setPostList] = useState([]);
   /*const posts = useMany({
     resource: "posts",
@@ -23,9 +22,7 @@ const Home = () => {
     // fetch data
     const dataFetch = async () => {
       const posts = await (
-        await fetch(
-          "https://api.fake-rest.refine.dev/posts"
-        )
+        await fetch("https://api.fake-rest.refine.dev/posts")
       ).json();
 
       // set state when the data received
@@ -33,51 +30,51 @@ const Home = () => {
     };
 
     dataFetch();
-  }, [navigate	]);
+  }, [navigate]);
 
-
-
-  const filters = ["film", "oyun", "müzik"];
+  const filters = ["published", "draft", "rejected"];
 
   return (
     <motion.div>
-      <div className={'filters'}>
+      <div className={"filters"}>
         {filters.map((filter, index) => {
           return (
             <Filter
               key={index}
               title={filter}
               isActive={filter === activeFilter}
-              onClick={e => {
-                const el = e.target
+              onClick={(e) => {
+                const el = e.target;
                 el.textContent?.toLowerCase() !== activeFilter
                   ? setActiveFilter(filter)
-                  : setActiveFilter("")
+                  : setActiveFilter("");
               }}
             />
-          )
+          );
         })}
       </div>
       <Search
-        onChange={e => {
-          setInputValue(e.target.value)
+        onChange={(e) => {
+          setInputValue(e.target.value);
         }}
       />
       <AnimatePresence>
-		<div className="w-100">
-			<div className="card-list">
-				{posts
-				?.filter(el =>
-					el.title.toLowerCase().includes(inputValue.toLowerCase())
-				)
-				.filter(e => e.status.includes(activeFilter))
-				.map((post, index) => {
-					return <Card key={index} title={post.title} status={post.status} />
-				})}
-			</div>
-		</div>
+        <div className="w-100">
+          <div className="card-list">
+            {posts
+              ?.filter((el) =>
+                el.title.toLowerCase().includes(inputValue.toLowerCase())
+              )
+              .filter((e) => e.status.includes(activeFilter))
+              .map((post, index) => {
+                return (
+                  <Card key={index} title={post.title} status={post.status} />
+                );
+              })}
+          </div>
+        </div>
       </AnimatePresence>
-    </motion.div> 
-  )
-}
+    </motion.div>
+  );
+};
 export default Home;
