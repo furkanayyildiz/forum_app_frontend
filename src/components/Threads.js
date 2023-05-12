@@ -9,6 +9,8 @@ const Threads = () => {
   const [threadList, setThreadList] = useState([]);
   const navigate = useNavigate();
 
+  const [selectedOption, setSelectedOption] = useState('');
+
   useEffect(() => {
     const checkUser = () => {
       if (!localStorage.getItem("_id")) {
@@ -28,6 +30,7 @@ const Threads = () => {
       method: "POST",
       body: JSON.stringify({
         thread,
+        selectedOption,
         id: localStorage.getItem("_id"),
       }),
       headers: {
@@ -45,21 +48,32 @@ const Threads = () => {
     e.preventDefault();
     createThread();
     setThread("");
+    setSelectedOption("");
   };
   return (
     <>
       <main className="home">
-        <h2 className="homeTitle">Create a Thread</h2>
+        <h1 className="homeTitle">Create a Thread</h1>
         <form className="homeForm" onSubmit={handleSubmit}>
           <div className="home__container">
-            <label htmlFor="thread">Title / Description</label>
+            <h2>Title / Description</h2>
             <input
               type="text"
               name="thread"
               required
               value={thread}
+              placeholder="Enter thread Title / Description"
               onChange={(e) => setThread(e.target.value)}
             />
+            <div>
+            <h2>Select Thread Tag</h2>
+              <select className="tagselect" name="tag" required value={selectedOption} onChange={(e)=> setSelectedOption(e.target.value)}>
+                <option value="">Select Tag</option>
+                <option value="music">Music</option>
+                <option value="game">Game</option>
+                <option value="movie">Movie</option>
+              </select>
+          </div>
           </div>
           <button className="homeBtn">CREATE THREAD</button>
         </form>
@@ -81,6 +95,7 @@ const Threads = () => {
               </div>
             </div>
           ))}
+
         </div>
       </main>
     </>

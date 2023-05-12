@@ -32,7 +32,7 @@ const Home = () => {
     dataFetch();
   }, [navigate]);
 
-  const filters = ["published", "draft", "rejected"];
+  const filters = ["games", "movies", "music"];
 
   return (
     <motion.div>

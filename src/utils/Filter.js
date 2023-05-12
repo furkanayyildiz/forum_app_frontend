@@ -14,9 +14,9 @@ const capitalize = str =>
         className="circle"
         style={{
           borderColor: `${
-            title === "draft"
+            title === "movies"
               ? "gold"
-              : title === "rejected"
+              : title === "music"
               ? "tomato"
               : "limegreen"
           }`
