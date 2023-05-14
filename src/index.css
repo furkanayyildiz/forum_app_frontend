@@ -47,7 +47,6 @@ a {
 .register,
 .login,
 .home,
-.replies,
 .modal {
 	display: flex;
 	width: 100%;
@@ -57,11 +56,24 @@ a {
 	min-height: 100vh;
 	padding: 30px;
 }
+
+.replies {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	padding: 100px 30px 30px 30px;
+}
 .registerTitle,
 .loginTitle,
 .homeTitle,
 .repliesTitle {
 	margin-bottom: 30px;
+}
+.homeTitle {
+	margin-top: 80px;
 }
 .registerForm,
 .loginForm {
@@ -107,7 +119,17 @@ a {
 	justify-content: center;
 	flex-direction: column;
 	width: 100%;
-	padding: 20px;
+	padding: 20px 20px 20px 20px;
+}
+.replies__container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+	padding: 80px 40px 40px 40px;
+	height: 300px;
+	overflow: auto;
 }
 .thread__item {
 	padding: 20px;
@@ -252,13 +274,21 @@ a {
   .filters {
 		display: flex;
 		justify-content: center;
-		margin-top: 25px;
+		margin-top: 100px;
   }
   .search-div{
 	display: flex;
 	justify-content: center;
   }
-
+.about {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 30px;
+	height: 100vh;
+}
 
 
   

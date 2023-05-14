@@ -1,22 +1,28 @@
 import React from "react"
+import { useNavigate } from "react-router-dom";
 
 import { motion } from "framer-motion"
 
-const Card = ({ title, status }) => {
+const Card = ({ id, title, tag }) => {
+  const navigate = useNavigate();
+  const navigateSingleThread = () => {
+    navigate(`/${id}/replies`);
+  };
   return (
     <motion.div
       className="card-wrapper"
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
       exit={{ opacity: 0 }}
+      onClick={navigateSingleThread}
     >
       <div
         className="card-circle"
         style={{
           borderColor: `${
-            status === "draft"
+            tag === "movie"
               ? "gold"
-              : status === "rejected"
+              : tag === "music"
               ? "tomato"
               : "limegreen"
           }`

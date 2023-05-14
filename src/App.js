@@ -9,6 +9,7 @@ import Threads from "./components/Threads";
 import Search from "./utils/Search";
 import Card from "./utils/Card";
 import Filter from "./utils/Filter";
+import About from "./components/About";
 //import { Refine } from "@refinedev/core"
 //import routerProvider from "@refinedev/react-router-v6"
 //import dataProvider from "@refinedev/simple-rest"
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/card" element={<Card />} />
             <Route path="/filter" element={<Filter />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </div>
       </BrowserRouter>

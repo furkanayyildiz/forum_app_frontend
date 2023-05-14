@@ -5,27 +5,32 @@ const Replies = () => {
     const [replyList, setReplyList] = useState([]);
     const [reply, setReply] = useState("");
     const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const navigate = useNavigate();
     const { id } = useParams();
-
-    useEffect(() => {
-        const fetchReplies = () => {
-            fetch("http://localhost:4000/api/thread/replies", {
-                method: "POST",
-                body: JSON.stringify({
-                    id,
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
+    
+    const fetchReplies = () => {
+        console.log(id);
+        fetch("http://localhost:4000/api/thread/replies", {
+            method: "POST",
+            body: JSON.stringify({
+                id,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setReplyList(data.replies);
+                setTitle(data.title);
+                setDescription(data.description);
             })
-                .then((res) => res.json())
-                .then((data) => {
-                    setReplyList(data.replies);
-                    setTitle(data.title);
-                })
-                .catch((err) => console.error(err));
-        };
+            .catch((err) => console.error(err));
+        
+    };
+    useEffect(() => {
+       
         fetchReplies();
     }, [id]);
 
@@ -45,7 +50,7 @@ const Replies = () => {
         .then((res) => res.json())
         .then((data) => {
             alert(data.message);
-            navigate("/dashboard");
+            fetchReplies();
         })
         .catch((err) => console.error(err));
 };
@@ -58,9 +63,10 @@ const handleSubmitReply = (e) => {
 };
 
     return (
-        <main className='replies'>
+        <div>
+            <main className='replies'>
             <h1 className='repliesTitle'>{title}</h1>
-    
+            <h3 className='repliesTitle'>{description} </h3>
             <form className='modal__content' onSubmit={handleSubmitReply}>
                 <label htmlFor='reply'>Reply to the thread</label>
                 <textarea
@@ -75,7 +81,7 @@ const handleSubmitReply = (e) => {
                 <button className='modalBtn'>SEND</button>
             </form>
     
-            <div className='thread__container'>
+            <div className=' replies__container'>
                 {replyList.map((reply) => (
                     <div className='thread__item'>
                         <p>{reply.text}</p>
@@ -86,6 +92,7 @@ const handleSubmitReply = (e) => {
                 ))}
             </div>
         </main>
+        </div>
     );
 };
 

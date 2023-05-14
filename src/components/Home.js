@@ -19,21 +19,21 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch data
+   
     const dataFetch = async () => {
-      const posts = await (
-        await fetch("https://api.fake-rest.refine.dev/posts")
-      ).json();
-
-      // set state when the data received
-      setPostList(posts);
+       await fetch("http://localhost:4000/api/all/threads")
+        .then((res) => res.json())
+        .then((data) => setPostList(data.threads))
     };
 
     dataFetch();
   }, [navigate]);
 
-  const filters = ["games", "movies", "music"];
-
+  const filters = ["game", "movie", "music"];
+  const filterThreads = (filter) => {
+    console.log(posts.filter((el) => el.tag.includes(filter)));
+    return posts.filter((el) => el.tag.includes(filter));
+  }
   return (
     <motion.div>
       <div className={"filters"}>
@@ -61,16 +61,15 @@ const Home = () => {
       <AnimatePresence>
         <div className="w-100">
           <div className="card-list">
-            {posts
-              ?.filter((el) =>
-                el.title.toLowerCase().includes(inputValue.toLowerCase())
-              )
-              .filter((e) => e.status.includes(activeFilter))
+            { activeFilter=== "" ? posts
               .map((post, index) => {
                 return (
-                  <Card key={index} title={post.title} status={post.status} />
+                  <Card id={post.id} key={index} title={post.title} tag={post.tag} />
                 );
-              })}
+              }) : filterThreads(activeFilter).map((post, index) => {
+                return (
+                  <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+                );},)}
           </div>
         </div>
       </AnimatePresence>
