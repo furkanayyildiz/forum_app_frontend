@@ -19,9 +19,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-   
+
     const dataFetch = async () => {
-       await fetch("http://localhost:4000/api/all/threads")
+      await fetch("http://localhost:4000/api/all/threads")
         .then((res) => res.json())
         .then((data) => setPostList(data.threads))
     };
@@ -33,6 +33,49 @@ const Home = () => {
   const filterThreads = (filter) => {
     console.log(posts.filter((el) => el.tag.includes(filter)));
     return posts.filter((el) => el.tag.includes(filter));
+  }
+  const filterByText = (value) => {
+    return posts.filter((el) => el.title.toLowerCase().includes(value.toLowerCase()) || el.description.toLowerCase().includes(value.toLowerCase()))
+  }
+  function renderList() {
+    if (activeFilter==="") {
+      if(inputValue===""){
+
+        return posts
+          .map((post, index) => {
+            return (
+              <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+            );
+          })
+      }
+      else {
+        return filterByText(inputValue)
+        .map((post, index) => {
+          return (
+            <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+          );
+        })
+      }
+    }
+    else {
+      if(inputValue===""){
+
+        return filterThreads(activeFilter)
+          .map((post, index) => {
+            return (
+              <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+            );
+          })
+      }
+      else {
+        return filterByText(inputValue)
+        .map((post, index) => {
+          return (
+            <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+          );
+        })
+      }
+    }
   }
   return (
     <motion.div>
@@ -61,15 +104,27 @@ const Home = () => {
       <AnimatePresence>
         <div className="w-100">
           <div className="card-list">
-            { activeFilter=== "" ? posts
-              .map((post, index) => {
-                return (
-                  <Card id={post.id} key={index} title={post.title} tag={post.tag} />
-                );
-              }) : filterThreads(activeFilter).map((post, index) => {
-                return (
-                  <Card id={post.id} key={index} title={post.title} tag={post.tag} />
-                );},)}
+           {
+            renderList()
+           }
+            {
+
+              // activeFilter === "" ? posts
+              //   .map((post, index) => {
+              //     return (
+              //       <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+              //     );
+              //   }) : inputValue === "" ? filterThreads(activeFilter).map((post, index) => {
+              //     return (
+              //       <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+              //     );
+              //   },) :
+              //   filterByText(inputValue).map((post, index) => {
+              //     return (
+              //       <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+              //     );
+              //   })
+            }
           </div>
         </div>
       </AnimatePresence>
