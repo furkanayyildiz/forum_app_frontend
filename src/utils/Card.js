@@ -1,9 +1,10 @@
 import React from "react"
 import { useNavigate } from "react-router-dom";
-
+import Likes from "../utils/Likes";
+import Comments from "../utils/Comments";
 import { motion } from "framer-motion"
 
-const Card = ({ id, title, tag }) => {
+const Card = ({ id, title, tag, post }) => {
   const navigate = useNavigate();
   const navigateSingleThread = () => {
     navigate(`/${id}/replies`);
@@ -14,7 +15,7 @@ const Card = ({ id, title, tag }) => {
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
       exit={{ opacity: 0 }}
-      onClick={navigateSingleThread}
+      
     >
       <div
         className="card-circle"
@@ -28,7 +29,18 @@ const Card = ({ id, title, tag }) => {
           }`
         }}
       ></div>
-      <h3 className="title">{title}</h3>
+          <h3 className="title">{title}</h3>
+        <div className="react__container">
+                <Likes
+                  numberOfLikes={post.likes.length}
+                  threadId={post.id}
+                />
+                <Comments
+                  numberOfComments={post.replies.length}
+                  threadId={post.id}
+                  title={post.title}
+                />
+              </div>
     </motion.div>
   )
 }

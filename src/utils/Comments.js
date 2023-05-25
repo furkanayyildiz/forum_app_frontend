@@ -5,6 +5,10 @@ const Comments = ({ numberOfComments, threadId }) => {
 	const navigate = useNavigate();
 
 	const handleAddComment = () => {
+		if(!localStorage.getItem("_id")){
+			navigate("/login")
+			return;
+		}
 		navigate(`/${threadId}/replies`);
 	};
 	return (
@@ -14,7 +18,7 @@ const Comments = ({ numberOfComments, threadId }) => {
 				viewBox='0 0 24 24'
 				fill='currentColor'
 				className='w-6 h-6 likesBtn'
-				onClick={handleAddComment}
+				onClick={ handleAddComment}
 			>
 				<path
 					fillRule='evenodd'

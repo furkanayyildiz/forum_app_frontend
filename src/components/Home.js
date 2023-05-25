@@ -20,6 +20,7 @@ const Home = () => {
 
   useEffect(() => {
 
+   
     const dataFetch = async () => {
       await fetch("http://localhost:4000/api/all/threads")
         .then((res) => res.json())
@@ -44,7 +45,7 @@ const Home = () => {
         return posts
           .map((post, index) => {
             return (
-              <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+              <Card id={post.id} key={index} title={post.title} tag={post.tag} post={post} />
             );
           })
       }
@@ -52,7 +53,7 @@ const Home = () => {
         return filterByText(inputValue)
         .map((post, index) => {
           return (
-            <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+            <Card id={post.id} key={index} title={post.title} tag={post.tag} post={post} />
           );
         })
       }

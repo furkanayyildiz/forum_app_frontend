@@ -165,9 +165,7 @@ const Nav = (props) => {
               onClose={handleCloseUserMenu}
             >
               
-                <MenuItem  onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">Profile</Typography>
-                </MenuItem>
+               
                 <MenuItem onClick={signOut}>
                   <Typography textAlign="center">Sign out</Typography>
                 </MenuItem>

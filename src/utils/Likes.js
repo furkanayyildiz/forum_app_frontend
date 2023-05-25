@@ -1,26 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Likes = ({ numberOfLikes, threadId }) => {
+	const navigate = useNavigate();
+
 	const handleLikeFunction = () => {
-		fetch("http://localhost:4000/api/thread/like", {
-			method: "POST",
-			body: JSON.stringify({
-				threadId,
-				userId: localStorage.getItem("_id"),
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				if (data.error_message) {
-					alert(data.error_message);
-				} else {
-					alert(data.message);
+				if(!localStorage.getItem("_id")){
+					navigate("/login")
+					return;
 				}
-			})
-			.catch((err) => console.error(err));
+		
+		  
+			  fetch("http://localhost:4000/api/thread/like", {
+				  method: "POST",
+				  body: JSON.stringify({
+					  threadId,
+					  userId: localStorage.getItem("_id"),
+				  }),
+				  headers: {
+					  "Content-Type": "application/json",
+				  },
+			  })
+				  .then((res) => res.json())
+				  .then((data) => {
+					  if (data.error_message) {
+						  alert(data.error_message);
+					  } else {
+						  alert(data.message);
+						  
+						  
+					  }
+					  
+				  })
+				  .catch((err) => console.error(err));
+				  
+		  
+		  
 	};
 
 	return (
