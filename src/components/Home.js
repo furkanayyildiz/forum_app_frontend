@@ -64,7 +64,7 @@ const Home = () => {
         return filterThreads(activeFilter)
           .map((post, index) => {
             return (
-              <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+              <Card id={post.id} key={index} title={post.title} tag={post.tag} post={post}/>
             );
           })
       }
@@ -72,7 +72,7 @@ const Home = () => {
         return filterByText(inputValue)
         .map((post, index) => {
           return (
-            <Card id={post.id} key={index} title={post.title} tag={post.tag} />
+            <Card id={post.id} key={index} title={post.title} tag={post.tag} post={post}/>
           );
         })
       }
